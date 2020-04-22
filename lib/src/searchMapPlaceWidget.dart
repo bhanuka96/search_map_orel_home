@@ -23,54 +23,33 @@ class SearchMapPlaceWidget extends StatefulWidget {
 
   final Key key;
 
-  /// API Key of the Google Maps API.
   final String apiKey;
 
-  /// Placeholder text to show when the user has not entered any input.
   final String placeholder;
 
-  /// The callback that is called when one Place is selected by the user.
   final void Function(Place place) onSelected;
 
-  /// The callback that is called when the user taps on the search icon.
   final void Function(Place place) onSearch;
 
-  /// Language used for the autocompletion.
-  ///
-  /// Check the full list of [supported languages](https://developers.google.com/maps/faq#languagesupport) for the Google Maps API
+
   final String language;
 
-  /// The point around which you wish to retrieve place information.
-  ///
-  /// If this value is provided, `radius` must be provided aswell.
   final LatLng location;
 
-  /// The distance (in meters) within which to return place results. Note that setting a radius biases results to the indicated area, but may not fully restrict results to the specified area.
-  ///
-  /// If this value is provided, `location` must be provided aswell.
-  ///
-  /// See [Location Biasing and Location Restrict](https://developers.google.com/places/web-service/autocomplete#location_biasing) in the documentation.
   final int radius;
 
-  /// Returns only those places that are strictly within the region defined by location and radius. This is a restriction, rather than a bias, meaning that results outside this region will not be returned even if they match the user input.
   final bool strictBounds;
 
-  /// Place type to filter the search. This is a tool that can be used if you only want to search for a specific type of location. If this no place type is provided, all types of places are searched. For more info on location types, check https://developers.google.com/places/web-service/autocomplete?#place_types
   final PlaceType placeType;
 
-  /// The initial icon to show in the search box
   final IconData icon;
 
-  /// Makes available "clear textfield" button when the user is writing.
   final bool hasClearButton;
 
-  /// The icon to show indicating the "clear textfield" button
   final IconData clearIcon;
 
-  /// The color of the icon to show in the search box
   final Color iconColor;
 
-  /// Enables Dark Mode when set to `true`. Default value is `false`.
   final bool darkMode;
   
   final TextEditingController textEditingController;
@@ -259,12 +238,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Ticker
     );
   }
 
-  /*
-  METHODS
-  */
 
-  /// Will be called everytime the input changes. Making callbacks to the Places
-  /// Api and giving the user Place options
   void _autocompletePlace() async {
     if (_fn.hasFocus) {
       setState(() {
@@ -297,7 +271,6 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Ticker
     }
   }
 
-  /// API request function. Returns the Predictions
   Future<dynamic> _makeRequest(input) async {
     String url =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=${widget.apiKey}&language=${widget.language}";
@@ -345,7 +318,6 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Ticker
     if (prediction is Place) widget.onSelected(prediction);
   }
 
-  /// Closes the expanded search box with predictions
   void _closeSearch() async {
     if (!_animationController.isDismissed) await _animationController.animateTo(0.5);
     _fn.unfocus();
@@ -357,7 +329,6 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Ticker
     widget.textEditingController.addListener(_autocompletePlace);
   }
 
-  /// Will listen for input changes every 0.5 seconds, allowing us to make API requests only when the user stops typing.
   void customListener() {
     Future.delayed(Duration(milliseconds: 500), () {
       if(!mounted) return;

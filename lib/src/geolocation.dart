@@ -24,24 +24,14 @@ class Geolocation {
     });
   }
 
-  /// Property that holds the JSON response that contains the location of the place.
   var _coordinates;
 
-  /// Property that holds the JSON response that contains the viewport of the place.
   var _bounds;
 
-  /// Has the full JSON response received from the Geolocation API. Can be used to extract extra information of the location. More info on the [Geolocation API documentation](https://developers.google.com/maps/documentation/geolocation/intro)
-  ///
-  /// All of its information can be accessed like a regular [Map]. For example:
-  /// ```
-  /// fullJSON["adress_components"][2]["short_name"]
-  /// ```
   var fullJSON;
 
   var cityComponent;
 
-  /// If you have the `google_maps_flutter` package, this method will return the coordinates of the place as
-  /// a `LatLng` object. Otherwise, it'll be returned as Map.
   get coordinates {
     try {
       return LatLng(_coordinates["lat"], _coordinates["lng"]);
@@ -52,8 +42,6 @@ class Geolocation {
     }
   }
 
-  /// If you have the `google_maps_flutter` package, this method will return the coordinates of the place as
-  /// a `LatLngBounds` object. Otherwise, it'll be returned as Map.
   get bounds {
     try {
       return LatLngBounds(
